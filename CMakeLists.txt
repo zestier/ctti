@@ -1,5 +1,5 @@
-project(ctti)
-cmake_minimum_required(VERSION 2.8)
+project(ctti VERSION 0.0.2)
+cmake_minimum_required(VERSION 3.14)
 
 option(CTTI_BUILD_TESTS "Build ctti feature tests" OFF)
 option(CTTI_BUILD_EXAMPLES "Build ctti examples" OFF)
@@ -24,3 +24,19 @@ endif()
 if(CTTI_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
+
+
+# Package the project for installation
+include(cmake/CPM.cmake)
+CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.6.0")
+packageProject(
+  NAME ${PROJECT_NAME}
+  VERSION ${PROJECT_VERSION}
+  BINARY_DIR ${PROJECT_BINARY_DIR}
+  INCLUDE_DIR ${PROJECT_SOURCE_DIR}/inc
+  INCLUDE_DESTINATION inc/${PROJECT_NAME}-${PROJECT_VERSION}
+  VERSION_HEADER "${PROJECT_NAME}/version.h"
+  EXPORT_HEADER "${PROJECT_NAME}/export.h"
+  COMPATIBILITY SameMajorVersion
+  DISABLE_VERSION_SUFFIX YES
+)
